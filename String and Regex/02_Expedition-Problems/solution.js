@@ -19,11 +19,11 @@ function solve() {
       .match(/[\d\,]+/gim) //takes only digits and , removes everything else
       .join("")
       .split(","); //separates two parts of number by ","
-    return `${data[0].substr(0, wholePart)}.${data[1].substr(0, decimalPart)}`;
+    return `${data[0].substr(0, wholePart)}.${data[1].substring(-decimalPart)}`;
   };
 
   const getNorthEast = str => {
-    let pattern = /(north|east).*?\d\d[^,]*,[^\d]*\d{6}/gim; //identifies only outer (fully equiped) group if nested.
+    let pattern = /(north|east).*?\d\d[^,]*,([^\d]*\d){6}/gim; //identifies only outer (fully equiped) group if nested.
     let data = Array.from(str.toLowerCase().match(pattern)).reverse(); //reverse so first is last when searching for them.
     return [
       getCoordinate(data.find(x => x.toLowerCase().startsWith("north"))),

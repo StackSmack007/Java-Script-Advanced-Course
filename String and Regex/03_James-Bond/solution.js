@@ -15,32 +15,25 @@ function solve() {
   let key = data.shift();
 
   let pattern = new RegExp(`(?<=(^| )${key} +)[!%$#A-Z]{8,}(?=[. ,]|$)`, `gmi`);
-
-  let matchCollection = data.join(" ").match(pattern);
-  if (matchCollection === null) {
-    return;
-  }
-
   let dictionary = { "!": 1, "%": 2, "#": 3, $: 4 };
+  data = data.map(x => {
+    let _x = x; //_x will remain unchanged so exec can move on it!
+    let match = pattern.exec(_x);
+    while (match !== null) {
+      if (match[0].toUpperCase() === match[0]) {
+        let alteredMatch = match[0]
+          .toLowerCase()
+          .split("")
+          .map(char =>
+            dictionary.hasOwnProperty(char) ? dictionary[char] : char
+          )
+          .join("");
+        x = x.replace(match[0], alteredMatch);
+      }
 
-  let matches = Array.from(matchCollection)
-    .filter(x => /[!%$#A-Z]{8,}/.test(x))
-    .reduce((acc, next) => {
-      let original = next;
-      let decoded = Array.from(next.toLowerCase()).reduce((a, b) => {
-        if (dictionary.hasOwnProperty(b)) {
-          a += dictionary[b];
-        } else {
-          a += b;
-        }
-        return a;
-      }, "");
-      acc[original] = decoded;
-      return acc;
-    }, {});
-
-  Object.entries(matches).forEach(([key, value]) => {
-    data = data.map(x => x.replace(key, value));
+      match = pattern.exec(_x);
+    }
+    return x;
   });
 
   data.forEach(x => {
