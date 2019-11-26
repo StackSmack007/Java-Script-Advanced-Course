@@ -1,0 +1,15 @@
+{
+  "name": "exercise",
+  "version": "1.0.0",
+  "description": "tests for tasks of the exersise",
+  "main": "tasks.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Me",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}
